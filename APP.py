@@ -66,6 +66,51 @@ def create_monto_website():
             transform: translateY(-3px);
         }
 
+        /* Header Styling */
+        .header {
+            background: var(--dark);
+            color: var(--light);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .colab-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: var(--light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .colab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(41, 98, 255, 0.3);
+        }
+
+        .colab-button img {
+            height: 24px;
+        }
+
         /* Features Section */
         .features {
             padding: 6rem 2rem;
@@ -181,6 +226,9 @@ def create_monto_website():
             font-weight: 800;
             color: var(--primary);
             margin: 0.5rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Performance section */
@@ -212,20 +260,36 @@ def create_monto_website():
         }
     </style>
 
-    <nav class="nav">
-        <a href="#top" class="nav-logo">MONTO</a>
-        <div class="nav-links">
-            <a href="#features" class="nav-link">Features</a>
-            <a href="#algorithm" class="nav-link">Algorithm</a>
-            <a href="#performance" class="nav-link">Performance</a>
-            <a href="#start" class="nav-link">Get Started</a>
-        </div>
-    </nav>
-
-    <div class="hero" id="top">
-        <!-- ... bestaande hero content ... -->
+    <!-- New Header Section -->
+    <div class="header">
+        <h1>MONTO Invest</h1>
+        <p>Smart investing made simple. Use data-driven strategies to optimize your monthly investments in IWDA ETF and Bitcoin.</p>
+        <a href="https://colab.research.google.com/drive/your-notebook-id" class="colab-button">
+            <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+            Open Investment Calculator
+        </a>
     </div>
 
+    <!-- Quick Start Guide -->
+    <section class="features" id="quickstart">
+        <h2>Quick Start Guide</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>1. Set Your Budget</h3>
+                <p>Enter your monthly investment amount (minimum €100)</p>
+            </div>
+            <div class="feature-card">
+                <h3>2. Get Recommendations</h3>
+                <p>Receive optimal allocation between IWDA ETF and Bitcoin</p>
+            </div>
+            <div class="feature-card">
+                <h3>3. Execute Orders</h3>
+                <p>Follow the detailed instructions for DEGIRO and Bitvavo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Algorithm Section (keep existing) -->
     <section class="algorithm" id="algorithm">
         <h2>The MONTO Algorithm</h2>
         <div class="algo-grid">
@@ -333,18 +397,19 @@ def create_monto_website():
     </script>
     """
     
-    st.set_page_config(page_title="MONTO", page_icon="📈", layout="wide", initial_sidebar_state="collapsed")
+    st.set_page_config(page_title="MONTO", page_icon="💰", layout="wide", initial_sidebar_state="collapsed")
     
-    # Remove default Streamlit styling
+    # Remove Streamlit styling
     st.markdown("""
         <style>
-            .block-container { padding: 0; max-width: 100%; }
+            .block-container { padding: 0 !important; max-width: 100% !important; }
             #MainMenu { visibility: hidden; }
             footer { visibility: hidden; }
+            .stApp { background: var(--gray) !important; }
         </style>
     """, unsafe_allow_html=True)
     
-    components.html(html_content, height=2000, scrolling=True)
+    components.html(html_content, height=3000, scrolling=True)
 
 if __name__ == "__main__":
     create_monto_website()
