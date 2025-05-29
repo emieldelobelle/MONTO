@@ -4,209 +4,206 @@ import streamlit.components.v1 as components
 def create_monto_website():
     html_content = """
     <style>
-        /* Modern Color Scheme */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
         :root {
-            --primary: #1E88E5;       /* Modern blue */
-            --secondary: #6B48FF;     /* Rich purple */
-            --accent: #00BFA5;        /* Teal */
-            --dark: #1A1A1A;          /* Near black */
-            --light: #FFFFFF;         /* Pure white */
-            --background: #F5F7FA;    /* Light gray blue */
+            --primary: #2B4FFE;          /* Electric Blue */
+            --secondary: #6C63FF;        /* Purple */
+            --accent: #00F7FF;           /* Cyan */
+            --dark: #0A1931;             /* Deep Navy */
+            --light: #FFFFFF;
+            --gray: #F6F9FC;
         }
 
-        /* Base Layout */
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background: var(--background);
-            font-family: 'Inter', sans-serif;
-            color: var(--dark);
-            overflow-x: hidden;
-            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Logo Design */
-        .logo-container {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .logo {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-
-        /* Hero Section with Video */
         .hero {
             position: relative;
-            height: 70vh;
+            height: 100vh;
             width: 100%;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .hero-video {
+        .hero video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 1;
+            filter: brightness(0.7);
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
             color: var(--light);
             padding: 2rem;
-            background: rgba(0,0,0,0.5);
-            border-radius: 20px;
+            background: rgba(10, 25, 49, 0.4);
             backdrop-filter: blur(10px);
         }
 
-        /* Feature Cards */
+        .hero-logo {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            letter-spacing: 4px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            padding: 4rem 2rem;
-            background: var(--light);
+            padding: 4rem;
+            background: var(--gray);
         }
 
         .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: var(--light);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
         }
 
-        /* AI Generated Images */
-        .ai-visual {
+        .feature-image {
             width: 100%;
-            height: 200px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 10px;
+        }
+
+        .feature-content {
+            padding: 2rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: var(--dark);
             margin-bottom: 1rem;
         }
 
-        /* CTA Section */
         .cta {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 4rem 2rem;
+            background: var(--dark);
+            padding: 6rem 2rem;
             text-align: center;
             color: var(--light);
         }
 
         .cta-button {
             display: inline-block;
-            padding: 1rem 2rem;
+            padding: 1.5rem 3rem;
             font-size: 1.2rem;
-            color: var(--primary);
-            background: var(--light);
+            font-weight: 600;
+            color: var(--light);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50px;
             text-decoration: none;
             transition: all 0.3s ease;
             margin-top: 2rem;
-            font-weight: 600;
+            border: none;
+            cursor: pointer;
         }
 
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(43, 79, 254, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero-logo { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .features { padding: 2rem; }
         }
     </style>
 
-    <div class="logo-container">
-        <div class="logo">MONTO</div>
-    </div>
-
     <div class="hero">
-        <video class="hero-video" autoplay loop muted playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-growing-line-graph-animation-14026-large.mp4" type="video/mp4">
+        <video autoplay loop muted playsinline>
+            <source src="https://cdn.coverr.co/videos/coverr-a-digital-world-2741/1080p.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
-            <h1>Intelligent Investing for Tomorrow</h1>
-            <p>Data-driven investment decisions powered by advanced analytics</p>
+            <h1 class="hero-logo">MONTO</h1>
+            <p class="hero-subtitle">The Future of Intelligent Investing</p>
+            <a href="#features" class="cta-button">Discover More</a>
         </div>
     </div>
 
-    <div class="features">
+    <div class="features" id="features">
         <div class="feature-card">
-            <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-YLGrXP7wv7kN8k5XvjhxYOpG/user-dQFKgPJjhXGYZSGmhJhvmJcB/img-gg8qAB2152sAoqFJHG5Vdzqp.png?st=2024-05-29T19%3A18%3A17Z&se=2024-05-29T21%3A18%3A17Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-29T19%3A18%3A17Z&ske=2024-05-29T21%3A18%3A17Z&sks=b&skv=2021-08-06&sig=abcdef123456" 
-                 class="ai-visual" alt="Smart Analytics">
-            <h3>Smart Analytics</h3>
-            <p>Advanced algorithms analyze market sentiment and optimize your portfolio</p>
+            <img class="feature-image" 
+                 src="https://images.unsplash.com/photo-1642543492481-44e81e3914a6?auto=format&fit=crop&w=1000" 
+                 alt="AI Trading">
+            <div class="feature-content">
+                <h3 class="feature-title">AI-Powered Analysis</h3>
+                <p>Advanced algorithms analyze market sentiment and optimize your portfolio in real-time.</p>
+            </div>
         </div>
+
         <div class="feature-card">
-            <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-YLGrXP7wv7kN8k5XvjhxYOpG/user-dQFKgPJjhXGYZSGmhJhvmJcB/img-QR8zBN9m52KAoqFJHG5VdzQp.png?st=2024-05-29T19%3A18%3A17Z&se=2024-05-29T21%3A18%3A17Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-29T19%3A18%3A17Z&ske=2024-05-29T21%3A18%3A17Z&sks=b&skv=2021-08-06&sig=abcdef123456" 
-                 class="ai-visual" alt="Risk Management">
-            <h3>Risk Management</h3>
-            <p>Sophisticated risk assessment using Kelly Criterion and Value at Risk</p>
+            <img class="feature-image" 
+                 src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1000" 
+                 alt="Risk Management">
+            <div class="feature-content">
+                <h3 class="feature-title">Smart Risk Management</h3>
+                <p>Kelly Criterion and Value at Risk calculations protect your investments.</p>
+            </div>
         </div>
+
         <div class="feature-card">
-            <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-YLGrXP7wv7kN8k5XvjhxYOpG/user-dQFKgPJjhXGYZSGmhJhvmJcB/img-KL9xBN9m52KAoqFJHG5VdzQp.png?st=2024-05-29T19%3A18%3A17Z&se=2024-05-29T21%3A18%3A17Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-29T19%3A18%3A17Z&ske=2024-05-29T21%3A18%3A17Z&sks=b&skv=2021-08-06&sig=abcdef123456" 
-                 class="ai-visual" alt="Market Timing">
-            <h3>Market Timing</h3>
-            <p>Optimal entry points based on Fear & Greed indices and technical analysis</p>
+            <img class="feature-image" 
+                 src="https://images.unsplash.com/photo-1640340434855-6084b1f4901c?auto=format&fit=crop&w=1000" 
+                 alt="Market Timing">
+            <div class="feature-content">
+                <h3 class="feature-title">Perfect Market Timing</h3>
+                <p>Fear & Greed indices help you enter and exit positions at optimal moments.</p>
+            </div>
         </div>
     </div>
 
     <div class="cta">
-        <h2>Ready to Optimize Your Investments?</h2>
-        <p>Start using MONTO Invest today and experience the power of data-driven investing</p>
+        <h2>Ready to Transform Your Investment Strategy?</h2>
         <a href="https://colab.research.google.com/drive/JOUW-COLAB-LINK" class="cta-button">
-            Get Started Now 🚀
+            Start Investing Smarter →
         </a>
     </div>
     """
     
-    # Configure Streamlit page
-    st.set_page_config(
-        page_title="MONTO Invest",
-        page_icon="📈",
-        layout="wide",
-        initial_sidebar_state="collapsed"
-    )
+    st.set_page_config(page_title="MONTO", page_icon="📈", layout="wide", initial_sidebar_state="collapsed")
     
-    # Remove default margins
+    # Remove default Streamlit styling
     st.markdown("""
         <style>
-            .block-container {
-                padding-top: 0;
-                padding-bottom: 0;
-                padding-left: 0;
-                padding-right: 0;
-            }
+            .block-container { padding: 0; max-width: 100%; }
+            #MainMenu { visibility: hidden; }
+            footer { visibility: hidden; }
         </style>
     """, unsafe_allow_html=True)
     
-    # Render the HTML content
-    components.html(html_content, height=2000, scrolling=False)
+    components.html(html_content, height=2000, scrolling=True)
 
 if __name__ == "__main__":
     create_monto_website()
