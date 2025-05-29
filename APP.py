@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import json
-from scipy import stats
-from scipy.optimize import minimize
 import warnings
 from zoneinfo import ZoneInfo  # Add this with your other imports
 warnings.filterwarnings('ignore')
@@ -172,16 +170,12 @@ class UltimateQuantStrategy:
         }
 
     def calculate_kelly_criterion(self, data):
-        """
-        Kelly Criterion: Mathematically optimal bet sizing
-        f = (bp - q) / b
-        where f = fraction to bet, b = odds, p = win probability, q = loss probability
-        """
+        """Kelly Criterion met numpy ipv scipy"""
         iwda_returns = data['iwda']['Close'].pct_change().dropna()
         btc_returns = data['btc']['Close'].pct_change().dropna()
 
-        # Calculate historical statistics
-        iwda_mean = iwda_returns.mean() * 252  # Annualized
+        # Calculate historical statistics using numpy
+        iwda_mean = iwda_returns.mean() * 252
         iwda_std = iwda_returns.std() * np.sqrt(252)
         iwda_sharpe = iwda_mean / iwda_std if iwda_std > 0 else 0
 
@@ -189,13 +183,9 @@ class UltimateQuantStrategy:
         btc_std = btc_returns.std() * np.sqrt(252)
         btc_sharpe = btc_mean / btc_std if btc_std > 0 else 0
 
-        # Kelly fraction for each asset
-        iwda_kelly = iwda_sharpe / iwda_std if iwda_std > 0 else 0
-        btc_kelly = btc_sharpe / btc_std if btc_std > 0 else 0
-
-        # Cap Kelly fractions (Kelly can be aggressive)
-        iwda_kelly = min(iwda_kelly, self.max_kelly_fraction)
-        btc_kelly = min(btc_kelly, self.max_kelly_fraction)
+        # Simplified Kelly calculation
+        iwda_kelly = max(0, min(iwda_sharpe / iwda_std if iwda_std > 0 else 0, self.max_kelly_fraction))
+        btc_kelly = max(0, min(btc_sharpe / btc_std if btc_std > 0 else 0, self.max_kelly_fraction))
 
         return {
             'iwda_kelly': iwda_kelly,
@@ -704,22 +694,14 @@ def run_streamlit_interface():
 # Update de main block
 if __name__ == "__main__":
     import sys
-    if "--streamlit" in sys.argv:
-        run_streamlit_interface()
-    else:
-        print("🚀 Initializing Ultimate Quantitative Strategy...")
-        quant_strategy = UltimateQuantStrategy()
-        recommendation = quant_strategy.generate_ultimate_recommendation()
-        if recommendation:
-            quant_strategy.display_ultimate_analysis(recommendation)
-
-            print(f"\n" + "="*80)
-            print("✅ STRATEGY ADVANTAGE OVER SIMPLE DCA:")
-            print(f"• Mathematical regime detection (not subjective)")
-            print(f"• Kelly Criterion position sizing (Nobel Prize winning)")
-            print(f"• Value at Risk assessment (institutional grade)")
-            print(f"• Maintains your brilliant 3-5 component simplicity")
-            print(f"• Expected outperformance: 2-5% annually")
-            print("="*80)
+    try:
+        if "--streamlit" in sys.argv:
+            run_streamlit_interface()
         else:
-            print("❌ Market data unavailable.")
+            print("🚀 Initializing Ultimate Quantitative Strategy...")
+            quant_strategy = UltimateQuantStrategy()
+            recommendation = quant_strategy.generate_ultimate_recommendation()
+            if recommendation:
+                quant_strategy.display_ultimate_analysis(recommendation)
+    except Exception as e:
+        print(f"Error: {str(e)}")
