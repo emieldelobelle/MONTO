@@ -1,0 +1,7 @@
+streamlit==1.45.1
+yfinance==0.2.36
+pandas==2.2.3
+numpy==2.2.6
+scipy==1.11.4
+requests==2.32.3
+zoneinfo
